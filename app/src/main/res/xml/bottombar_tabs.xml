@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+
+    <tab
+        icon="@drawable/bottom_home_selector"
+        id="@+id/tab_favorites"
+        title="Favorites" />
+    <tab
+        icon="@mipmap/buyer_hight"
+        id="@+id/tab_nearby"
+        title="Nearby" />
+    <tab
+        icon="@mipmap/category"
+        id="@+id/tab_friends"
+        title="Friends" />
+</tabs>

@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "502053035271",
+    "firebase_url": "https://peixingdemo.firebaseio.com",
+    "project_id": "peixingdemo",
+    "storage_bucket": "peixingdemo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:502053035271:android:a02effdc5a7fa013",
+        "android_client_info": {
+          "package_name": "com.peixing.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "502053035271-1qtol66rm47flo7c5n7l752gs7onq8cq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB31wNYwHZu0lJGGSJCYxMidw6nrbtW2C4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

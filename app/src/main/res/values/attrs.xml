@@ -1,0 +1,147 @@
+<resources>
+
+    <!--<attr name="font" format="enum">-->
+        <!--<enum name="roboto_light" value="1" />-->
+        <!--<enum name="roboto_condensed" value="2" />-->
+        <!--<enum name="roboto_condensed_light" value="3" />-->
+        <!--<enum name="roboto_condensed_bold" value="4" />-->
+        <!--<enum name="roboto_slab" value="5" />-->
+    <!--</attr>-->
+
+    <!--    <attr name="title" format="string|reference" />
+
+        <declare-styleable name="RatingCircleView">
+            <attr name="ratePrompt" format="string|reference" />
+            <attr name="backgroundCircleColor" format="color|reference" />
+            <attr name="foregroundCircleColor" format="color|reference" />
+            <attr name="arcColor" format="color|reference" />
+            <attr name="textColor" format="color|reference" />
+            <attr name="font" />
+        </declare-styleable>-->
+
+    <declare-styleable name="FontTextView">
+        <attr name="font" />
+    </declare-styleable>
+
+    <declare-styleable name="FlowIndicator">
+        <attr name="count" format="integer" />
+        <attr name="space" format="dimension" />
+        <attr name="point_size" format="dimension" />
+        <attr name="point_seleted_color" format="color|reference" />
+        <attr name="point_normal_color" format="color|reference" />
+        <attr name="point_radius" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="CircleImageView">
+        <attr name="border_width" format="dimension" />
+        <attr name="border_color" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="MsgView">
+        <!-- 圆角矩形背景色 -->
+        <attr name="mv_backgroundColor" format="color" />
+        <!-- 圆角弧度,单位dp-->
+        <attr name="mv_cornerRadius" format="dimension" />
+        <!-- 圆角弧度,单位dp-->
+        <attr name="mv_strokeWidth" format="dimension" />
+        <!-- 圆角边框颜色-->
+        <attr name="mv_strokeColor" format="color" />
+        <!-- 圆角弧度是高度一半-->
+        <attr name="mv_isRadiusHalfHeight" format="boolean" />
+        <!-- 圆角矩形宽高相等,取较宽高中大值-->
+        <attr name="mv_isWidthHeightEqual" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="WechatTab">
+        <attr name="pstsIndicatorColorWe" format="color" />
+        <attr name="pstsUnderlineColorWe" format="color" />
+        <attr name="pstsDividerColorWe" format="color" />
+        <attr name="pstsIndicatorHeightWe" format="dimension" />
+        <attr name="pstsUnderlineHeightWe" format="dimension" />
+        <attr name="pstsDividerPaddingWe" format="dimension" />
+        <attr name="pstsTabPaddingLeftRightWe" format="dimension" />
+        <attr name="pstsScrollOffsetWe" format="dimension" />
+        <attr name="pstsTabBackgroundWe" format="reference" />
+        <attr name="pstsShouldExpandWe" format="boolean" />
+        <attr name="pstsTextAllCapsWe" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="AutoComplete">
+        <attr name="emailOnly" format="boolean" />
+        <attr name="darkness" format="boolean" />
+        <attr name="closeAutoComplete" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="Crossed">
+        <attr name="dark" format="boolean" />
+    </declare-styleable>
+
+
+    <declare-styleable name="JazzyViewPager">
+        <attr name="style">
+            <enum name="standard" value="0" />
+            <enum name="tablet" value="1" />
+            <enum name="cubein" value="2" />
+            <enum name="cubeout" value="3" />
+            <enum name="flipvertical" value="4" />
+            <enum name="fliphorizontal" value="5" />
+            <enum name="stack" value="6" />
+            <enum name="zoomin" value="7" />
+            <enum name="zoomout" value="8" />
+            <enum name="rotateup" value="9" />
+            <enum name="rotatedown" value="10" />
+            <enum name="accordion" value="11" />
+        </attr>
+        <attr name="fadeEnabled" format="boolean" />
+        <attr name="outlineEnabled" format="boolean" />
+        <attr name="outlineColor" format="color|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="ViewfinderView">
+        <attr name="corner_color" format="color"/>
+        <attr name="laser_color" format="color"/>
+        <attr name="frame_color" format="color" />
+        <attr name="mask_color" format="color" />
+        <attr name="result_point_color" format="color"/>
+        <attr name="result_color" format="color" />
+        <attr name="label_text_color" format="color"/>
+        <attr name="label_text" format="string"/>
+        <attr name="label_text_size" format="float"/>
+    </declare-styleable>
+    <declare-styleable name="EasyCountDownTextureView">
+        <attr name="easyCountRectWidth"
+            format="dimension"/>
+        <attr name="easyCountRectHeight"
+            format="dimension"/>
+        <attr name="easyCountRectRadius"
+            format="dimension"/>
+        <attr name="easyCountRectBorderSize"
+            format="dimension"/>
+        <attr name="easyCountRectBorderColor"
+            format="color"/>
+        <attr name="easyCountRectBorderStroke"
+            format="dimension"/>
+        <attr name="easyCountRectSpacing"
+            format="dimension"/>
+        <attr name="easyCountTimeColor"
+            format="color"/>
+        <attr name="easyCountTimeSize"
+            format="dimension"/>
+        <attr name="easyCountTimeStroke"
+            format="dimension"/>
+        <attr name="easyCountColonColor"
+            format="color"/>
+        <attr name="easyCountColonSize"
+            format="dimension"/>
+        <attr name="easyCountColonStroke"
+            format="dimension"/>
+        <attr name="easyCountBackgroundColor"
+            format="color"/>
+        <attr name="easyCountHour"
+            format="integer"/>
+        <attr name="easyCountMinute"
+            format="integer"/>
+        <attr name="easyCountSecond"
+            format="integer"/>
+    </declare-styleable>
+</resources>
