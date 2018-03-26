@@ -223,16 +223,16 @@
                 android:layout_marginBottom="12dp"
                 android:paddingLeft="12dp">
 
-                <com.peixing.myapplication.view.LoginEditText
-                    android:id="@+id/edt_login"
-                    android:layout_width="230dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/back_filter"
-                    android:hint="帐号"
-                    android:inputType="textPassword"
-                    android:paddingLeft="12dp"
-                    android:textCursorDrawable="@color/black"
-                    android:textSize="12sp" />
+                <!--<com.peixing.myapplication.view.LoginEditText-->
+                    <!--android:id="@+id/edt_login"-->
+                    <!--android:layout_width="230dp"-->
+                    <!--android:layout_height="40dp"-->
+                    <!--android:background="@drawable/back_filter"-->
+                    <!--android:hint="帐号"-->
+                    <!--android:inputType="textPassword"-->
+                    <!--android:paddingLeft="12dp"-->
+                    <!--android:textCursorDrawable="@color/black"-->
+                    <!--android:textSize="12sp" />-->
 
                 <CheckBox
                     android:id="@+id/check_pwd"

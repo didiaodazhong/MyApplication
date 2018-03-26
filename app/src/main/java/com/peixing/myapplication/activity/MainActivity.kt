@@ -7,6 +7,7 @@ import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
 import android.graphics.Bitmap.Config.ARGB_4444
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.graphics.drawable.Icon
 import android.hardware.Camera
 import android.net.Uri
@@ -15,8 +16,6 @@ import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.text.method.HideReturnsTransformationMethod
-import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -31,15 +30,13 @@ import com.app.hubert.library.NewbieGuide
 import com.bigkoo.pickerview.OptionsPickerView
 import com.bigkoo.pickerview.TimePickerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.GlideDrawable
-import com.bumptech.glide.request.animation.GlideAnimation
 import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.transition.Transition
 import com.google.zxing.activity.CaptureActivity
 import com.peixing.myapplication.R
 import com.peixing.myapplication.adapter.RecyclerViewAdapter
 import com.peixing.myapplication.bean.FilterData
 import com.peixing.myapplication.uikit.PermissionListener
-import com.peixing.myapplication.view.LoginEditText
 import com.peixing.myapplication.view.WheelView
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView
 import java.text.DecimalFormat
@@ -57,7 +54,7 @@ class MainActivity : BaseFragmentActivity() {
     private var recyclerView: SwipeMenuRecyclerView? = null
     private var btCircleMenu: Button? = null
     private var checkPwd: CheckBox? = null
-    private var edtLogin: LoginEditText? = null
+    //    private var edtLogin: LoginEditText? = null
     internal var datas = ArrayList<FilterData>()
     private var isExpand = false
     internal var tempDatas = ArrayList<FilterData>()
@@ -107,7 +104,7 @@ class MainActivity : BaseFragmentActivity() {
 
         val gridLayoutManager = GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false)
 
-        edtLogin = findViewById<View>(R.id.edt_login) as LoginEditText
+//        edtLogin = findViewById<View>(R.id.edt_login) as LoginEditText
         btScanQr = findViewById<View>(R.id.bt_scan_qr) as Button
         btChooseVideo = findViewById<View>(R.id.bt_choose_video) as Button
         checkPwd = findViewById<View>(R.id.check_pwd) as CheckBox
@@ -125,16 +122,16 @@ class MainActivity : BaseFragmentActivity() {
             setupShortcuts()
         }
 
-        checkPwd!!.setOnCheckedChangeListener { buttonView, isChecked ->
-            //输入框密码切换
-            if (isChecked) {
-                edtLogin!!.transformationMethod = HideReturnsTransformationMethod.getInstance()
-                checkPwd!!.setButtonDrawable(R.drawable.pwd_visible)
-            } else {
-                edtLogin!!.transformationMethod = PasswordTransformationMethod.getInstance()
-                checkPwd!!.setButtonDrawable(R.drawable.pwd_invisible)
-            }
-        }
+//        checkPwd!!.setOnCheckedChangeListener { buttonView, isChecked ->
+//            //输入框密码切换
+//            if (isChecked) {
+//                edtLogin!!.transformationMethod = HideReturnsTransformationMethod.getInstance()
+//                checkPwd!!.setButtonDrawable(R.drawable.pwd_visible)
+//            } else {
+//                edtLogin!!.transformationMethod = PasswordTransformationMethod.getInstance()
+//                checkPwd!!.setButtonDrawable(R.drawable.pwd_invisible)
+//            }
+//        }
         for (i in PLANETS.indices) {
             var filter = FilterData()
             filter.id = i
@@ -168,24 +165,33 @@ class MainActivity : BaseFragmentActivity() {
                 tvExpand!!.text = "收缩"
             }
         }
-        /*   Glide.with(MainActivity.this)
-                   .load("http://img1.cloudokids.cn/content/images/thumbs/0000209_tilly-wrap-top-blue.jpeg")
-                   .into(new SimpleTarget<GlideDrawable>() {
-                       @Override
-                       public void onResourceReady(GlideDrawable resource, GlideAnimation <? super GlideDrawable> glideAnimation) {
-                           relPic.setBackground(resource);
-                           Log.i("MainActivity", "onResourceReady: 加载图片");
-                       }
-                   });*/
+        /*      Glide.with(MainActivity.this)
+                      .load("http://img1.cloudokids.cn/content/images/thumbs/0000209_tilly-wrap-top-blue.jpeg")
+                      .into(new SimpleTarget<GlideDrawable>() {
+                          @Override
+                          public void onResourceReady(GlideDrawable resource, GlideAnimation <? super GlideDrawable> glideAnimation) {
+                              relPic.setBackground(resource);
+                              Log.i("MainActivity", "onResourceReady: 加载图片");
+                          }
+                      });*/
 
-        Glide.with(this@MainActivity)
+        /*  Glide.with(this@MainActivity)
+                  .load("http://img1.cloudokids.cn/content/images/thumbs/0000209_tilly-wrap-top-blue.jpeg")
+                  .into(object : SimpleTarget<GlideDrawable>() {
+                      override fun onResourceReady(resource: GlideDrawable, glideAnimation: GlideAnimation<in GlideDrawable>) {
+                          relPic!!.setBackground(resource);
+                          Log.i("MainActivity", "onResourceReady: 加载图片")
+                      }
+                  })*/
+
+        Glide.with(this)
                 .load("http://img1.cloudokids.cn/content/images/thumbs/0000209_tilly-wrap-top-blue.jpeg")
-                .into(object : SimpleTarget<GlideDrawable>() {
-                    override fun onResourceReady(resource: GlideDrawable, glideAnimation: GlideAnimation<in GlideDrawable>) {
+                .into(object : SimpleTarget<Drawable>() {
+                    override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+//                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
                         relPic!!.setBackground(resource);
                         Log.i("MainActivity", "onResourceReady: 加载图片")
                     }
-
                 })
         button!!.setOnClickListener {
             //                startActivity(new Intent(MainActivity.this, CardPageActivity.class));

@@ -4,8 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Canvas;
-import android.graphics.ColorFilter;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Criteria;
@@ -22,8 +21,6 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -35,8 +32,16 @@ import android.widget.Toast;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
-import com.mabeijianxi.smallvideorecord2.model.BaseMediaBitrateConfig;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.transition.Transition;
 import com.peixing.myapplication.BuildConfig;
+import com.peixing.myapplication.GlideApp;
 import com.peixing.myapplication.R;
 import com.peixing.myapplication.utils.CLDLogger;
 
@@ -58,8 +63,8 @@ public class PathActivity extends AppCompatActivity {
     private int mSatelliteNum;
     private Location location;
     private Button btnCamera;
-//    private BottomNavigationBar bottomNavigationBar;
-//    private BottomNavigationItem explore;
+    private BottomNavigationBar bottomNavigationBar;
+    private BottomNavigationItem explore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +72,7 @@ public class PathActivity extends AppCompatActivity {
         setContentView(R.layout.activity_path);
         txtPath = (TextView) findViewById(R.id.txt_path);
         btnCamera = (Button) findViewById(R.id.btn_camera);
-//        bottomNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom_navigation_bar);
+        bottomNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom_navigation_bar);
 
 //        CLDLogger.I("--获得根目录/data 内部存储路径path--" + Environment.getDataDirectory().getPath());
         Log.i("PathActivity", "--获得根目录/data 内部存储路径path--" + Environment.getDataDirectory().getPath());
@@ -148,7 +153,7 @@ public class PathActivity extends AppCompatActivity {
 //监视地理位置变化
 //        mlocationmanager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 3000, 0, locationListener);
 //        mlocationmanager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 0, locationListener);
-        mlocationmanager.requestLocationUpdates(provider, 3000, 0, locationListener);
+//        mlocationmanager.requestLocationUpdates(provider, 3000, 0, locationListener);
 //        mlocationmanager.addGpsStatusListener(statusListener);
 //        mlocationmanager.addNmeaListener(nmeaListener);
 
@@ -166,35 +171,66 @@ public class PathActivity extends AppCompatActivity {
                 startActivityForResult(intent, 1);
             }
         });
-//        bottomNavigationBar.setMode(BottomNavigationBar.MODE_FIXED);
-//        bottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_DEFAULT);
-//        explore = new BottomNavigationItem(R.mipmap.explore, "发现");
-//        bottomNavigationBar.addItem(new BottomNavigationItem(R.mipmap.buyer, "买手"))
-//                .addItem(new BottomNavigationItem(R.mipmap.category, "分类"))
-//                .addItem(explore)
-//                .addItem(new BottomNavigationItem(R.mipmap.designer, "品牌"))
-//                .addItem(new BottomNavigationItem(R.mipmap.personal, "我的"))
-//                .initialise();
-//        bottomNavigationBar.setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener() {
-//            @Override
-//            public void onTabSelected(int position) {
-//                if (position == 3) {
-//                    bottomNavigationBar.removeItem(explore);
-//                }
-//                CLDLogger.I("onTabSelected" + position);
-//            }
-//
-//            @Override
-//            public void onTabUnselected(int position) {
-//
-//                CLDLogger.I("onTabUnselected" + position);
-//            }
-//
-//            @Override
-//            public void onTabReselected(int position) {
-//                CLDLogger.I("onTabReselected" + position);
-//            }
-//        });
+        bottomNavigationBar.setMode(BottomNavigationBar.MODE_FIXED);
+        bottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_DEFAULT);
+        explore = new BottomNavigationItem(R.mipmap.explore, "发现");
+        bottomNavigationBar.addItem(new BottomNavigationItem(R.mipmap.buyer, "买手"))
+                .addItem(new BottomNavigationItem(R.mipmap.category, "分类"))
+                .addItem(explore)
+                .addItem(new BottomNavigationItem(R.mipmap.designer, "品牌"))
+                .addItem(new BottomNavigationItem(R.mipmap.personal, "我的"))
+                .initialise();
+        bottomNavigationBar.setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(int position) {
+                if (position == 3) {
+                    bottomNavigationBar.removeItem(explore);
+                }
+                CLDLogger.I("onTabSelected" + position);
+            }
+
+            @Override
+            public void onTabUnselected(int position) {
+
+                CLDLogger.I("onTabUnselected" + position);
+            }
+
+            @Override
+            public void onTabReselected(int position) {
+                CLDLogger.I("onTabReselected" + position);
+            }
+        });
+        GlideApp.with(this)
+                .asBitmap()
+                .load("")
+                .apply(new RequestOptions().centerCrop())
+                .thumbnail(0.5f)
+
+                .into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+
+                    }
+                });
+        Glide.with(this)
+                .load("")
+                .listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        return false;
+                    }
+                })
+                .into(new SimpleTarget<Drawable>() {
+                    @Override
+                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+
+                    }
+                });
     }
 
 
@@ -286,7 +322,7 @@ public class PathActivity extends AppCompatActivity {
                 // for ActivityCompat#requestPermissions for more details.
                 return;
             }
-            mlocationmanager.requestLocationUpdates(provider, 3000, 0, locationListener);
+//            mlocationmanager.requestLocationUpdates(provider, 3000, 0, locationListener);
         }
     }
 
@@ -388,8 +424,8 @@ public class PathActivity extends AppCompatActivity {
             // for ActivityCompat#requestPermissions for more details.
             return true;
         }
-        mlocationmanager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                1000, 0, locationListener);
+//        mlocationmanager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+//                1000, 0, locationListener);
         location = mlocationmanager
                 .getLastKnownLocation(LocationManager.GPS_PROVIDER);
         if (location != null) {
@@ -416,8 +452,8 @@ public class PathActivity extends AppCompatActivity {
             // for ActivityCompat#requestPermissions for more details.
             return true;
         }
-        mlocationmanager.requestLocationUpdates(
-                LocationManager.NETWORK_PROVIDER, 1000, 0, locationListener);
+//        mlocationmanager.requestLocationUpdates(
+//                LocationManager.NETWORK_PROVIDER, 1000, 0, locationListener);
         location = mlocationmanager
                 .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         if (location != null) {
