@@ -78,6 +78,8 @@ public class PathActivity extends AppCompatActivity {
     private RecyclerView recyclerPath;
     private PathAdapter pathAdapter;
     private ArrayList<String> paths;
+    private Button bottomSheet;
+    private BottomFragment bottomFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +92,7 @@ public class PathActivity extends AppCompatActivity {
         recyclerPath = (RecyclerView) findViewById(R.id.recycler_path);
         recyclerPath.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerPath.setHasFixedSize(true);
-
+        bottomSheet = (Button) findViewById(R.id.bottom_sheet);
 //        CLDLogger.I("--获得根目录/data 内部存储路径path--" + Environment.getDataDirectory().getPath());
         Log.i("PathActivity", "--获得根目录/data 内部存储路径path--" + Environment.getDataDirectory().getPath());
         CLDLogger.I(" 获得缓存目录/cache--path--" + Environment.getDownloadCacheDirectory().getPath());
@@ -269,6 +271,10 @@ public class PathActivity extends AppCompatActivity {
 
         pathAdapter = new PathAdapter(this, paths);
         recyclerPath.setAdapter(pathAdapter);
+
+        bottomFragment = new BottomFragment(this, pathAdapter);
+
+
         imgPath.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -287,6 +293,10 @@ public class PathActivity extends AppCompatActivity {
                                    }
                         ).openGallery();
             }
+        });
+
+        bottomSheet.setOnClickListener((View view) -> {
+            bottomFragment.show(getSupportFragmentManager(),"bottom");
         });
     }
 
