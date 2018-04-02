@@ -5,7 +5,7 @@ import android.annotation.TargetApi
 import android.content.Intent
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
-import android.graphics.Bitmap.Config.ARGB_4444
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.Icon
@@ -20,11 +20,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
-import cn.finalteam.rxgalleryfinal.RxGalleryFinal
-import cn.finalteam.rxgalleryfinal.bean.MediaBean
-import cn.finalteam.rxgalleryfinal.imageloader.ImageLoaderType
-import cn.finalteam.rxgalleryfinal.rxbus.RxBusResultSubscriber
-import cn.finalteam.rxgalleryfinal.rxbus.event.ImageMultipleResultEvent
 import com.app.hubert.library.HighLight
 import com.app.hubert.library.NewbieGuide
 import com.bigkoo.pickerview.OptionsPickerView
@@ -36,7 +31,16 @@ import com.google.zxing.activity.CaptureActivity
 import com.peixing.myapplication.R
 import com.peixing.myapplication.adapter.RecyclerViewAdapter
 import com.peixing.myapplication.bean.FilterData
+import com.peixing.myapplication.rxgalleryfinal.RxGalleryFinal
+import com.peixing.myapplication.rxgalleryfinal.RxGalleryFinalApi
+import com.peixing.myapplication.rxgalleryfinal.bean.MediaBean
+import com.peixing.myapplication.rxgalleryfinal.imageloader.ImageLoaderType
+import com.peixing.myapplication.rxgalleryfinal.rxbus.RxBusResultDisposable
+import com.peixing.myapplication.rxgalleryfinal.rxbus.event.BaseResultEvent
+import com.peixing.myapplication.rxgalleryfinal.rxbus.event.ImageMultipleResultEvent
+import com.peixing.myapplication.rxgalleryfinal.rxbus.event.ImageRadioResultEvent
 import com.peixing.myapplication.uikit.PermissionListener
+import com.peixing.myapplication.utils.CLDLogger
 import com.peixing.myapplication.view.WheelView
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView
 import java.text.DecimalFormat
@@ -314,7 +318,23 @@ class MainActivity : BaseFragmentActivity() {
 
         btChooseVideo!!.setOnClickListener {
             RxGalleryFinal.with(this@MainActivity)
-                    .imageConfig(ARGB_4444)
+                    .imageConfig(Bitmap.Config.ARGB_8888)
+                    .imageLoader(ImageLoaderType.GLIDE)
+                    .radio()
+                    .crop(false)
+                    .hideCamera()
+                    .subscribe(object : RxBusResultDisposable<ImageRadioResultEvent>() {
+                        @Throws(Exception::class)
+                        override fun onEvent(imageRadioResultEvent: ImageRadioResultEvent) {
+                            var originalPath = imageRadioResultEvent.result.originalPath
+                            CLDLogger.I("path--" + originalPath)
+                        }
+                    }).openGallery()
+        }
+
+        /*btChooseVideo!!.setOnClickListener {
+            RxGalleryFinal.with(this@MainActivity)
+                    .imageConfig(Bitmap.ARGB_4444)
                     .imageLoader(ImageLoaderType.GLIDE)
                     .image()
                     .maxSize(3)
@@ -333,49 +353,49 @@ class MainActivity : BaseFragmentActivity() {
 
                         }
                     })
-                    .openGallery()
-            /*  RxGalleryFinalApi
-                        .getInstance(MainActivity.this)
+                    .openGallery()*/
+        /*   RxGalleryFinalApi
+                   .getInstance(MainActivity.this)
 
-                        .setType(RxGalleryFinalApi.SelectRXType.TYPE_VIDEO, RxGalleryFinalApi.SelectRXType.TYPE_SELECT_RADIO)
-                        .setVDRadioResultEvent(new RxBusResultSubscriber<ImageRadioResultEvent>() {
-                            @Override
-                            protected void onEvent(ImageRadioResultEvent imageRadioResultEvent) throws Exception {
-                                String originalPath = imageRadioResultEvent.getResult().getOriginalPath();
-                                Log.i("MainActivity", "onEvent: originalPath-- " + originalPath);
+                   .setType(RxGalleryFinalApi.SelectRXType.TYPE_VIDEO, RxGalleryFinalApi.SelectRXType.TYPE_SELECT_RADIO)
+                   .setVDRadioResultEvent(new RxBusResultSubscriber < ImageRadioResultEvent >() {
+                       @Override
+                       protected void onEvent(ImageRadioResultEvent imageRadioResultEvent) throws Exception {
+                           String originalPath = imageRadioResultEvent . getResult ().getOriginalPath();
+                           Log.i("MainActivity", "onEvent: originalPath-- " + originalPath);
 // 选择本地视频压缩
-                                LocalMediaConfig.Buidler buidler = new LocalMediaConfig.Buidler();
-                                final LocalMediaConfig config = buidler
-                                        .setVideoPath(originalPath)
-                                        .captureThumbnailsTime(1)
-                                        .doH264Compress(new AutoVBRMode())
-                                        .setFramerate(10)
-                                        .setScale(1.0f)
-                                        .build();
-                                OnlyCompressOverBean onlyCompressOverBean = new LocalMediaCompress(config).startCompress();
-                                String videoPath = onlyCompressOverBean.getVideoPath();
-                                Log.i("MainActivity", "onEvent: 压缩后-- " + videoPath);
-                                File file = new File(videoPath);
-                                FileInputStream fis = new FileInputStream(file);
-                                long totalSpace = fis.available();
-                                Log.i("MainActivity", "onEvent: totalSpace-- " + FormetFileSize(totalSpace));
-                            }
-                        })
-                        .open();*/
-            /* .setImageRadioResultEvent(new RxBusResultSubscriber<ImageRadioResultEvent>() {
-                            @Override
-                            protected void onEvent(ImageRadioResultEvent imageRadioResultEvent) throws Exception {
-                                String originalPath = imageRadioResultEvent.getResult().getOriginalPath();
-                                Log.i("MainActivity", "onEvent: originalPath-- "+originalPath);
-                               *//* if (imageRadioResultEvent.getResult().getCropPath() != null) {
+                           LocalMediaConfig.Buidler buidler = new LocalMediaConfig.Buidler();
+                           final LocalMediaConfig config = buidler
+                                   .setVideoPath(originalPath)
+                                   .captureThumbnailsTime(1)
+                                   .doH264Compress(new AutoVBRMode ())
+                                   .setFramerate(10)
+                                   .setScale(1.0f)
+                                   .build();
+                           OnlyCompressOverBean onlyCompressOverBean = new LocalMediaCompress(config).startCompress();
+                           String videoPath = onlyCompressOverBean . getVideoPath ();
+                           Log.i("MainActivity", "onEvent: 压缩后-- " + videoPath);
+                           File file = new File(videoPath);
+                           FileInputStream fis = new FileInputStream(file);
+                           long totalSpace = fis . available ();
+                           Log.i("MainActivity", "onEvent: totalSpace-- " + FormetFileSize(totalSpace));
+                       }
+                   })
+                   .open();*/
+        /* .setImageRadioResultEvent(new RxBusResultSubscriber<ImageRadioResultEvent>() {
+                        @Override
+                        protected void onEvent(ImageRadioResultEvent imageRadioResultEvent) throws Exception {
+                            String originalPath = imageRadioResultEvent.getResult().getOriginalPath();
+                            Log.i("MainActivity", "onEvent: originalPath-- "+originalPath);
+                          if (imageRadioResultEvent.getResult().getCropPath() != null) {
 
-                                } else {
+                            } else {
 //                                    showViewToast("该图片格式不正确,未获得图片链接");
-                                    Log.i("MainActivity", "onEvent: 该图片格式不正确,未获得图片链接");
-                                }*//*
+                                Log.i("MainActivity", "onEvent: 该图片格式不正确,未获得图片链接");
                             }
-                        }).*/
-        }
+                        }
+                    }).*/
+
 
 
         btScanQr!!.setOnClickListener {
@@ -485,50 +505,50 @@ class MainActivity : BaseFragmentActivity() {
     }
 
 
-    /* @TargetApi(Build.VERSION_CODES.N_MR1)
-     private void setupShortcuts() {
-         ShortcutManager mShortcutManager = getSystemService(ShortcutManager.class);
+/* @TargetApi(Build.VERSION_CODES.N_MR1)
+ private void setupShortcuts() {
+     ShortcutManager mShortcutManager = getSystemService(ShortcutManager.class);
 
-         List<ShortcutInfo> infos = new ArrayList<>();
-         for (int i = 0; i < 4; i++) {
-             Intent intent = new Intent(this, CircleActivity.class);
-             intent.setAction(Intent.ACTION_VIEW);
-             intent.putExtra("msg", "我和" + PLANETS[i] + "的对话");
+     List<ShortcutInfo> infos = new ArrayList<>();
+     for (int i = 0; i < 4; i++) {
+         Intent intent = new Intent(this, CircleActivity.class);
+         intent.setAction(Intent.ACTION_VIEW);
+         intent.putExtra("msg", "我和" + PLANETS[i] + "的对话");
 
-             ShortcutInfo info = new ShortcutInfo.Builder(this, "id" + i)
-                     .setShortLabel(PLANETS[i])
-                     .setLongLabel("联系人:" + PLANETS[i])
-                     .setIcon(Icon.createWithResource(this, R.mipmap.ic_launcher))
-                     .setIntent(intent)
-                     .build();
-             infos.add(info);
- //            manager.addDynamicShortcuts(Arrays.asList(info));
-         }
+         ShortcutInfo info = new ShortcutInfo.Builder(this, "id" + i)
+                 .setShortLabel(PLANETS[i])
+                 .setLongLabel("联系人:" + PLANETS[i])
+                 .setIcon(Icon.createWithResource(this, R.mipmap.ic_launcher))
+                 .setIntent(intent)
+                 .build();
+         infos.add(info);
+//            manager.addDynamicShortcuts(Arrays.asList(info));
+     }
 
-         mShortcutManager.setDynamicShortcuts(infos);
-     }*/
+     mShortcutManager.setDynamicShortcuts(infos);
+ }*/
 
 
-    /* @TargetApi(Build.VERSION_CODES.N_MR1)
-     private fun setupShortcuts() {
-         val mShortcutManager = getSystemService(ShortcutManager::class.java)
-         val infos = ArrayList()
-         for (i in 0..3)
-         {
-             val intent = Intent(this, CircleActivity::class.java)
-             intent.setAction(Intent.ACTION_VIEW)
-             intent.putExtra("msg", "我和" + PLANETS[i] + "的对话")
-             val info = ShortcutInfo.Builder(this, "id" + i)
-                     .setShortLabel(PLANETS[i])
-                     .setLongLabel("联系人:" + PLANETS[i])
-                     .setIcon(Icon.createWithResource(this, R.mipmap.ic_launcher))
-                     .setIntent(intent)
-                     .build()
-             infos.add(info)
-             // manager.addDynamicShortcuts(Arrays.asList(info));
-         }
-         mShortcutManager.setDynamicShortcuts(infos)
-     }*/
+/* @TargetApi(Build.VERSION_CODES.N_MR1)
+ private fun setupShortcuts() {
+     val mShortcutManager = getSystemService(ShortcutManager::class.java)
+     val infos = ArrayList()
+     for (i in 0..3)
+     {
+         val intent = Intent(this, CircleActivity::class.java)
+         intent.setAction(Intent.ACTION_VIEW)
+         intent.putExtra("msg", "我和" + PLANETS[i] + "的对话")
+         val info = ShortcutInfo.Builder(this, "id" + i)
+                 .setShortLabel(PLANETS[i])
+                 .setLongLabel("联系人:" + PLANETS[i])
+                 .setIcon(Icon.createWithResource(this, R.mipmap.ic_launcher))
+                 .setIntent(intent)
+                 .build()
+         infos.add(info)
+         // manager.addDynamicShortcuts(Arrays.asList(info));
+     }
+     mShortcutManager.setDynamicShortcuts(infos)
+ }*/
 
     @TargetApi(Build.VERSION_CODES.N_MR1)
     private fun setupShortcuts() {

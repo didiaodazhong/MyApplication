@@ -71,7 +71,7 @@
         <activity android:name=".activity.DragRecyclerActivity" />
         <activity android:name="com.mabeijianxi.smallvideorecord2.MediaRecorderActivity" />
         <activity
-            android:name="cn.finalteam.rxgalleryfinal.ui.activity.MediaActivity"
+            android:name=".rxgalleryfinal.ui.activity.MediaActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme_Light.Default" />

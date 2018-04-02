@@ -23,10 +23,13 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +46,12 @@ import com.bumptech.glide.request.transition.Transition;
 import com.peixing.myapplication.BuildConfig;
 import com.peixing.myapplication.GlideApp;
 import com.peixing.myapplication.R;
+import com.peixing.myapplication.adapter.PathAdapter;
+import com.peixing.myapplication.rxgalleryfinal.RxGalleryFinal;
+import com.peixing.myapplication.rxgalleryfinal.imageloader.ImageLoaderType;
+import com.peixing.myapplication.rxgalleryfinal.rxbus.RxBusResultDisposable;
+import com.peixing.myapplication.rxgalleryfinal.rxbus.event.ImageRadioResultEvent;
+import com.peixing.myapplication.utils.BitmapUtils;
 import com.peixing.myapplication.utils.CLDLogger;
 
 import java.io.File;
@@ -65,6 +74,10 @@ public class PathActivity extends AppCompatActivity {
     private Button btnCamera;
     private BottomNavigationBar bottomNavigationBar;
     private BottomNavigationItem explore;
+    private ImageView imgPath;
+    private RecyclerView recyclerPath;
+    private PathAdapter pathAdapter;
+    private ArrayList<String> paths;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +86,10 @@ public class PathActivity extends AppCompatActivity {
         txtPath = (TextView) findViewById(R.id.txt_path);
         btnCamera = (Button) findViewById(R.id.btn_camera);
         bottomNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom_navigation_bar);
+        imgPath = (ImageView) findViewById(R.id.img_path);
+        recyclerPath = (RecyclerView) findViewById(R.id.recycler_path);
+        recyclerPath.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        recyclerPath.setHasFixedSize(true);
 
 //        CLDLogger.I("--获得根目录/data 内部存储路径path--" + Environment.getDataDirectory().getPath());
         Log.i("PathActivity", "--获得根目录/data 内部存储路径path--" + Environment.getDataDirectory().getPath());
@@ -200,6 +217,19 @@ public class PathActivity extends AppCompatActivity {
                 CLDLogger.I("onTabReselected" + position);
             }
         });
+
+         /*      Glide.with(MainActivity.this)
+                      .load("http://img1.cloudokids.cn/content/images/thumbs/0000209_tilly-wrap-top-blue.jpeg")
+                      .into(new SimpleTarget<GlideDrawable>() {
+                          @Override
+                          public void onResourceReady(GlideDrawable resource, GlideAnimation <? super GlideDrawable> glideAnimation) {
+                              relPic.setBackground(resource);
+                              Log.i("MainActivity", "onResourceReady: 加载图片");
+                          }
+                      });*/
+        String url = "http://img1.cloudokids.cn/content/images/thumbs/0000209_tilly-wrap-top-blue.jpeg";
+        BitmapUtils.loadBitmap(this, url, false, imgPath);
+
         GlideApp.with(this)
                 .asBitmap()
                 .load("")
@@ -231,8 +261,34 @@ public class PathActivity extends AppCompatActivity {
 
                     }
                 });
-    }
 
+        paths = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            paths.add(url);
+        }
+
+        pathAdapter = new PathAdapter(this, paths);
+        recyclerPath.setAdapter(pathAdapter);
+        imgPath.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RxGalleryFinal.with(PathActivity.this)
+                        .imageConfig(Bitmap.Config.ARGB_8888)
+                        .imageLoader(ImageLoaderType.GLIDE)
+                        .image()
+                        .crop(false)
+                        .radio()
+                        .subscribe(new RxBusResultDisposable<ImageRadioResultEvent>() {
+
+                                       @Override
+                                       protected void onEvent(ImageRadioResultEvent imageRadioResultEvent) throws Exception {
+
+                                       }
+                                   }
+                        ).openGallery();
+            }
+        });
+    }
 
     private void updateWithNewLocation(Location location) {
         String coordinate;
