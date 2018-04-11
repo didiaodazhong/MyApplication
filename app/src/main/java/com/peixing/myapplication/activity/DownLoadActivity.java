@@ -77,18 +77,23 @@ public class DownLoadActivity extends AppCompatActivity implements DownLoadFragm
                         @Override
                         public void onPrepare() {
                             isDownload = true;
+                            updateFragment.setProgress("下载准备中...");
+                            updateFragment.setHadIntercept(true);
                         }
 
                         @Override
                         public void onProgress(int progress) {
                             CLDLogger.I("--下载进度:--" + progress + "%");
                             txtProgress.setText("下载进度:" + progress + "%");
+                            updateFragment.setProgress("当前下载进度:" + progress + "%");
+
                         }
 
                         @Override
                         public void onComplete(File file) {
                             isDownload = false;
                             setPermission(file.getPath());
+                            updateFragment.dismiss();
                             CLDLogger.I("下载完成,文件路径为:" + file.getPath());
                             txtProgress.setText("下载完成,文件路径为:" + file.getPath());
                             apkFile = file.getPath();
@@ -161,8 +166,8 @@ public class DownLoadActivity extends AppCompatActivity implements DownLoadFragm
 
     private void installApk(File file) {
         try {
-//                                String authority = getPackageName() + ".fileProvider";
-            String authority = "com.peixing.myapplication.fileProvider";
+            String authority = getPackageName() + ".fileProvider";
+//            String authority = "com.peixing.myapplication.fileProvider";
             Uri fileUri = FileProvider.getUriForFile(DownLoadActivity.this, authority, file);
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -196,10 +201,10 @@ public class DownLoadActivity extends AppCompatActivity implements DownLoadFragm
 
     @Override
     public void onBackPressed() {
-        if (!isDownload) {
-            super.onBackPressed();
-        } else {
-            ToastUtils.showMiddleToast(this, "当前正在下载应用,请稍后退出页面");
-        }
+            if (!isDownload) {
+                super.onBackPressed();
+            } else {
+                ToastUtils.showMiddleToast(this, "当前正在下载应用,请稍后退出页面");
+            }
     }
 }

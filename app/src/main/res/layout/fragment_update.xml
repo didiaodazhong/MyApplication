@@ -5,6 +5,12 @@
     android:gravity="center"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:id="@+id/lin_fragment_container"
+        android:orientation="vertical"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content">
+
     <TextView
         style="@style/Base.TextAppearance.AppCompat"
         android:layout_width="match_parent"
@@ -13,6 +19,7 @@
         android:text="检查更新" />
 
     <TextView
+        android:id="@+id/txt_fragment_message"
         style="@style/Base.TextAppearance.AppCompat"
         android:layout_width="match_parent"
         android:layout_height="35dp"
@@ -42,5 +49,5 @@
             android:text="确定"
             android:textColor="@color/white" />
     </LinearLayout>
-
+    </LinearLayout>
 </LinearLayout>
