@@ -73,8 +73,8 @@ class MainActivity : BaseFragmentActivity() {
     private var btnSchemeCategory: Button? = null
     private var btnSchemeWeb: Button? = null
     private var btnContact: Button? = null
-    private var btnGetPath: Button? = null;
-
+    private var btnGetPath: Button? = null
+    private var btnUpdateVersion: Button? = null
     private val medias = ArrayList<MediaBean>()
     //打开扫描界面请求码
     private val REQUEST_CODE = 0x01
@@ -105,7 +105,7 @@ class MainActivity : BaseFragmentActivity() {
         btnSchemeWeb = findViewById<View>(R.id.btn_scheme_web) as Button
         btnContact = findViewById<View>(R.id.btn_contact) as Button
         btnGetPath = findViewById<View>(R.id.btn_get_path) as Button
-
+        btnUpdateVersion = findViewById<View>(R.id.btn_update_version) as Button
         val gridLayoutManager = GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false)
 
 //        edtLogin = findViewById<View>(R.id.edt_login) as LoginEditText
@@ -461,7 +461,10 @@ class MainActivity : BaseFragmentActivity() {
             val intent = Intent(this@MainActivity, PathActivity::class.java)
             startActivity(intent)
         }
-
+        btnUpdateVersion!!.setOnClickListener {
+            val intent = Intent(this@MainActivity, DownLoadActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

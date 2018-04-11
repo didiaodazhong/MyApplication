@@ -8,7 +8,7 @@ import android.security.keystore.KeyPermanentlyInvalidatedException;
 import android.security.keystore.KeyProperties;
 import android.util.Log;
 
-import com.peixing.myapplication.FPLog;
+import com.peixing.myapplication.utils.FPLog;
 
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;

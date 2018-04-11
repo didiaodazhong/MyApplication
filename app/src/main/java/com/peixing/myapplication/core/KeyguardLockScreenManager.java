@@ -5,7 +5,7 @@ import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.Intent;
 
-import com.peixing.myapplication.FPLog;
+import com.peixing.myapplication.utils.FPLog;
 
 
 /**

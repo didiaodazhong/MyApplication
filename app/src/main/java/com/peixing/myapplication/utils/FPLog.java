@@ -1,6 +1,8 @@
-package com.peixing.myapplication;
+package com.peixing.myapplication.utils;
 
 import android.util.Log;
+
+import com.peixing.myapplication.BuildConfig;
 
 
 /**

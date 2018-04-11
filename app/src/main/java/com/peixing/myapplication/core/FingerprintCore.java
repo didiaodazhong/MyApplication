@@ -9,7 +9,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
-import com.peixing.myapplication.FPLog;
+import com.peixing.myapplication.utils.FPLog;
 
 import java.lang.ref.WeakReference;
 

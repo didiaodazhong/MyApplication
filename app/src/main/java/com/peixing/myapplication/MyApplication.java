@@ -1,6 +1,7 @@
 package com.peixing.myapplication;
 
 import android.app.Application;
+import android.content.Context;
 import android.os.Environment;
 
 import com.mabeijianxi.smallvideorecord2.DeviceUtils;
@@ -15,11 +16,13 @@ import java.io.File;
 
 public class MyApplication extends Application {
 
+    public static Context mContext;
+
     @Override
     public void onCreate() {
         super.onCreate();
         initSmallVideo();
-
+        mContext = getApplicationContext();
     }
 
     public static void initSmallVideo() {
